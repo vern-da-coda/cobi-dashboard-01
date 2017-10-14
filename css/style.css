@@ -1,0 +1,41 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    height: 100%;
+    background-color: #1d1d23;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+#curSpeed {
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 3px;
+}
+
+#avrSpeed {
+    color: #fff;
+    position: absolute;
+    top: 20px;
+    left: 3px;
+}
+
+#maxSpeed {
+    color: #fff;
+    position: absolute;
+    top: 40px;
+    left: 3px;
+}
+
+#version {
+    color: #666;
+    position: absolute;
+    top: 0;
+    right: 3px;
+}
