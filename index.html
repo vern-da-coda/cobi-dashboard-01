@@ -21,6 +21,11 @@
         <div id="curSpeed">-</div>
         <div id="maxSpeed">-</div>
         <div id="avrSpeed">-</div>
+
+        <div id="curCadence">-</div>
+        <div id="maxCadence">-</div>
+        <div id="avrCadence">-</div>
+
         <div id="version"></div>
 
         <script src="js/cobi.js"></script>
@@ -51,9 +56,14 @@
                     );
 
                     let BkD = new BkDashboard();
+
                     BkD.initView();
-                    BkD.initAverageView();
+
+                    BkD.initAverageSpeedView();
+                    BkD.initAverageCadenceView();
+
                     BkD.initSpeedCheck();
+                    BkD.initCadenceCheck();
 
                     COBI.rideService.speed.subscribe(
                         function (value) {
@@ -75,7 +85,7 @@
 
                     COBI.rideService.cadence.subscribe(
                         function (value) {
-                            console.log('cadence: ' + value);
+                            BkD.updateCurrentCadenceView(value);
                         }
                     );
 

@@ -19,17 +19,38 @@ body, html {
     left: 3px;
 }
 
-#avrSpeed {
+#maxSpeed {
     color: #fff;
     position: absolute;
     top: 20px;
     left: 3px;
 }
 
-#maxSpeed {
+#avrSpeed {
     color: #fff;
     position: absolute;
     top: 40px;
+    left: 3px;
+}
+
+#curCadence {
+    color: #fff;
+    position: absolute;
+    top: 70px;
+    left: 3px;
+}
+
+#maxCadence {
+    color: #fff;
+    position: absolute;
+    top: 90px;
+    left: 3px;
+}
+
+#avrCadence {
+    color: #fff;
+    position: absolute;
+    top: 110px;
     left: 3px;
 }
 
