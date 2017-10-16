@@ -7,7 +7,7 @@ class BkDashboard
     /**
      *
      */
-    constructor(stageWidth, stageHeight)
+    constructor(stageContainer, stageWidth, stageHeight)
     {
         //let view = new View();
         
@@ -20,6 +20,7 @@ class BkDashboard
         
         this.stageWidth = stageWidth;
         this.stageHeight = stageHeight;
+        this.stageContainer = stageContainer;
         
         this.arcX = 0;
         this.arcY = 0;
@@ -64,7 +65,7 @@ class BkDashboard
         this.stage =
             new Konva.Stage(
                 {
-                    container: 'container',
+                    container: this.stageContainer,
                     width:     this.stageWidth,
                     height:    this.stageHeight
                 }
