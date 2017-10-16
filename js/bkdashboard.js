@@ -5,7 +5,7 @@ class BkDashboard
      */
     constructor()
     {
-        this.version = '0.0.4';
+        this.version = '0.0.5';
         
         this.localStorageAvailable =
             (
@@ -28,27 +28,28 @@ class BkDashboard
         
         this.acrToBackground = 5;
         
+        //Speed
         this.maxSpeed = 0;
         this.maxSpeedCeiling = 20;
-        
+        this.maxSpeedCeilingBufer = 5;
         this.averageSpeed = 0;
-        this.averageCadence = 0;
-        
-        this.lastSpeedUpdate = 0;
+        this.averageSpeedMultiplier = 10;
         this.checkSpeedInterval = 1000;
         this.checkSpeedIntervalObject = null;
+        this.lastSpeedUpdate = 0;
         
-        this.lastCadenceUpdate = 0;
-        this.checkCadenceInterval = 1000;
-        this.checkCadenceIntervalObject = null;
-        
-        this.averageCadenceInterval = 1000;
-        this.averageCadenceIntervalObject = null;
-        
+        //Cadence
         this.maxCadence = 0;
         this.maxCadenceCeiling = 50;
-        
+        this.maxCadenceCeilingBuffer = 10;
+        this.averageCadence = 0;
+        this.averageCadenceMultiplier = 100;
+        this.averageCadenceInterval = 1000;
+        this.averageCadenceIntervalObject = null;
         this.lastCadenceUpdate = 0;
+        
+        this.checkCadenceInterval = 1000;
+        this.checkCadenceIntervalObject = null;
     }
     
     /**
@@ -213,147 +214,15 @@ class BkDashboard
         $('#version').text(this.version);
     }
     
-    /**
-     * @param  speed
-     */
-    updateCurrentSpeedView(speed)
-    {
-        this.lastSpeedUpdate = Date.now().toString();
-        
-        speed = this.round(speed);
-        
-        this.setMaxSpeed(speed);
-        
-        let opacity = 1;
-        if (speed === 0)
-        {
-            opacity = 0;
-        }
-        
-        let tween =
-            new Konva.Tween(
-                {
-                    node:     this.curSpeedArc,
-                    rotation: this.calculateSpeedBasedRotation(speed),
-                    easing:   Konva.Easings.EaseInOut,
-                    duration: 0.5,
-                    opacity:  opacity
-                }
-            );
-        
-        tween.play();
-        
-        $('#curSpeed').text(speed);
-        $('#maxSpeed').text(this.maxSpeedCeiling);
-    }
-    
-    updateCurrentCadenceView(cadence)
-    {
-        this.lastCadenceUpdate = Date.now().toString();
-        
-        cadence = this.round(cadence);
-        
-        this.setMaxCadence(cadence);
-        this.setAvrCadence(cadence);
-        
-        let opacity = 1;
-        if (cadence === 0)
-        {
-            opacity = 0;
-        }
-        
-        let tween =
-            new Konva.Tween(
-                {
-                    node:     this.curCadenceArc,
-                    rotation: this.calculateCadenceBasedRotation(cadence),
-                    easing:   Konva.Easings.EaseInOut,
-                    duration: 0.5,
-                    opacity:  opacity
-                }
-            );
-        
-        tween.play();
-        
-        $('#curCadence').text(cadence);
-        $('#maxCadence').text(this.maxCadenceCeiling);
-    }
-    
-    updateAverageSpeedView(speed, initial = false)
-    {
-        speed = this.round(speed);
-        
-        this.setAvrSpeed(speed);
-        
-        let duration = 0.5;
-        if (initial === true)
-        {
-            duration = 5;
-        }
-        
-        let rotation = 0;
-        if (speed !== 0)
-        {
-            rotation = this.calculateSpeedBasedRotation(speed) + 180;
-        }
-        
-        let tween =
-            new Konva.Tween(
-                {
-                    node:     this.averageSpeedArc,
-                    rotation: rotation,
-                    easing:   Konva.Easings.EaseInOut,
-                    duration: duration,
-                }
-            );
-        
-        tween.play();
-        
-        $('#avrSpeed').text(speed);
-    }
-    
-    updateAverageCadenceView(cadence, initial = false)
-    {
-        cadence = this.round(cadence);
-        
-        this.setAvrCadence(cadence);
-        
-        let duration = 0.5;
-        if (initial === true)
-        {
-            duration = 5;
-        }
-        
-        let rotation = 0;
-        if (cadence !== 0)
-        {
-            rotation = this.calculateCadenceBasedRotation(cadence) + 180;
-        }
-        
-        let tween =
-            new Konva.Tween(
-                {
-                    node:     this.averageCadenceArc,
-                    rotation: rotation,
-                    easing:   Konva.Easings.EaseInOut,
-                    duration: duration,
-                }
-            );
-        
-        tween.play();
-        
-        $('#avrCadence').text(cadence);
-    }
-    
     initAverageSpeedView()
     {
-        this.setMaxSpeed(this.getAvrSpeed());
+        this.setMaxSpeed(this.getMaxSpeed());
         this.updateAverageSpeedView(this.getAvrSpeed(), true);
     }
     
     initAverageCadenceView()
     {
-        this.setMaxCadence(this.getAvrCadence());
+        this.setMaxCadence(this.getMaxCadence());
         this.updateAverageCadenceView(this.getAvrCadence(), true);
         
         if (this.averageCadenceIntervalObject === null)
@@ -395,6 +264,132 @@ class BkDashboard
         }
     }
     
+    /**
+     * @param  speed
+     */
+    updateCurrentSpeedView(speed)
+    {
+        this.lastSpeedUpdate = Date.now().toString();
+        
+        speed = this.round(speed);
+        
+        this.setMaxSpeed(speed);
+        
+        let opacity = 1;
+        if (speed === 0)
+        {
+            opacity = 0;
+        }
+        
+        let tween =
+            new Konva.Tween(
+                {
+                    node:     this.curSpeedArc,
+                    rotation: this.calculateSpeedBasedRotation(speed),
+                    easing:   Konva.Easings.EaseInOut,
+                    duration: 0.5,
+                    opacity:  opacity
+                }
+            );
+        
+        tween.play();
+        
+        $('#speed').text(speed + ' > ' + this.averageSpeed + ' - (' + this.maxSpeed + '/' + this.maxSpeedCeiling + ')');
+    }
+    
+    updateCurrentCadenceView(cadence)
+    {
+        this.lastCadenceUpdate = Date.now().toString();
+        
+        cadence = this.round(cadence);
+        
+        this.setMaxCadence(cadence);
+        this.setAvrCadence(cadence);
+        
+        let opacity = 1;
+        if (cadence === 0)
+        {
+            opacity = 0;
+        }
+        
+        let tween =
+            new Konva.Tween(
+                {
+                    node:     this.curCadenceArc,
+                    rotation: this.calculateCadenceBasedRotation(cadence),
+                    easing:   Konva.Easings.EaseInOut,
+                    duration: 0.5,
+                    opacity:  opacity
+                }
+            );
+        
+        tween.play();
+        
+        $('#cadence').text(cadence + ' > ' + this.averageCadence + ' - (' + this.maxCadence + '/' + this.maxCadenceCeiling + ')');
+    }
+    
+    updateAverageSpeedView(speed, initial = false)
+    {
+        speed = this.round(speed);
+        
+        this.setAvrSpeed(speed);
+        
+        let duration = 0.5;
+        if (initial === true)
+        {
+            duration = 5;
+        }
+        
+        let rotation = 0;
+        if (speed !== 0)
+        {
+            rotation = this.calculateSpeedBasedRotation(speed) + 180;
+        }
+        
+        let tween =
+            new Konva.Tween(
+                {
+                    node:     this.averageSpeedArc,
+                    rotation: rotation,
+                    easing:   Konva.Easings.EaseInOut,
+                    duration: duration,
+                }
+            );
+        
+        tween.play();
+    }
+    
+    updateAverageCadenceView(cadence, initial = false)
+    {
+        cadence = this.round(cadence);
+        
+        this.setAvrCadence(cadence);
+        
+        let duration = 0.5;
+        if (initial === true)
+        {
+            duration = 5;
+        }
+        
+        let rotation = 0;
+        if (cadence !== 0)
+        {
+            rotation = this.calculateCadenceBasedRotation(cadence) + 180;
+        }
+        
+        let tween =
+            new Konva.Tween(
+                {
+                    node:     this.averageCadenceArc,
+                    rotation: rotation,
+                    easing:   Konva.Easings.EaseInOut,
+                    duration: duration,
+                }
+            );
+        
+        tween.play();
+    }
+    
     calculateSpeedBasedRotation(speed)
     {
         let factor = (
@@ -415,37 +410,50 @@ class BkDashboard
     
     setAvrSpeed(speed)
     {
-        if (this.averageSpeed !== speed)
+        if (this.averageSpeed === null)
         {
             this.averageSpeed = speed;
+        }
+        
+        if (speed > 0)
+        {
+            speed =
+                (
+                    (
+                        this.averageSpeed * (
+                        this.averageSpeedMultiplier - 1)) + speed) / this.averageSpeedMultiplier;
             
-            if (this.localStorageAvailable === true)
+            speed = this.round(speed);
+            
+            if (this.averageSpeed !== speed)
             {
-                localStorage.setItem('averageSpeed', this.averageSpeed);
+                this.averageSpeed = speed;
+                this.storeItem('averageSpeed', this.averageSpeed);
             }
         }
     }
     
     setAvrCadence(cadence)
     {
+        if (this.averageCadence === null)
+        {
+            this.averageCadence = cadence;
+        }
+        
         if (cadence > 0)
         {
-            
             cadence =
                 (
                     (
-                        this.averageCadence * 99) + cadence) / 100;
+                        this.averageCadence * (
+                        this.averageCadenceMultiplier - 1)) + cadence) / this.averageCadenceMultiplier;
             
             cadence = this.round(cadence);
             
             if (this.averageCadence !== cadence)
             {
                 this.averageCadence = cadence;
-                
-                if (this.localStorageAvailable === true)
-                {
-                    localStorage.setItem('averageCadence', this.averageCadence);
-                }
+                this.storeItem('averageCadence', this.averageCadence);
             }
         }
     }
@@ -487,15 +495,36 @@ class BkDashboard
         if (speed > this.maxSpeedCeiling)
         {
             this.maxSpeed = this.round(speed);
-            this.maxSpeedCeiling = Math.ceil(this.maxSpeed / 5) * 5;
+            this.maxSpeedCeiling = Math.ceil(this.maxSpeed / this.maxSpeedCeilingBufer) * this.maxSpeedCeilingBufer;
+            
+            if (this.maxSpeed === this.maxSpeedCeiling)
+            {
+                this.maxSpeedCeiling += 5;
+            }
+            
+            this.storeItem('maxSpeed', this.maxSpeed);
+            this.storeItem('maxSpeedCeiling', this.maxSpeedCeiling);
+        }
+    }
+    
+    getMaxSpeed()
+    {
+        if (this.localStorageAvailable === true)
+        {
+            let value = localStorage.getItem('maxSpeed');
             
             if (typeof(
-                    Storage) !== 'undefined')
+                    value) !== 'undefined')
             {
-                localStorage.setItem('maxSpeed', this.maxSpeed);
-                localStorage.setItem('maxSpeedCeiling', this.maxSpeedCeiling);
+                this.maxSpeed = value;
             }
         }
+        else
+        {
+            this.maxSpeed = this.getAvrSpeed();
+        }
+        
+        return this.maxSpeed;
     }
     
     setMaxCadence(cadence)
@@ -503,19 +532,48 @@ class BkDashboard
         if (cadence > this.maxCadenceCeiling)
         {
             this.maxCadence = this.round(cadence);
-            this.maxCadenceCeiling = Math.ceil(this.maxCadence / 10) * 10;
+            this.maxCadenceCeiling = Math.ceil(this.maxCadence / this.maxCadenceCeilingBuffer) * this.maxCadenceCeilingBuffer;
+            
+            if (this.maxCadence === this.maxCadenceCeiling)
+            {
+                this.maxCadenceCeiling += this.maxCadenceCeilingBuffer;
+            }
+            
+            this.storeItem('maxCadence', this.maxCadence);
+            this.storeItem('maxCadenceCeiling', this.maxCadenceCeiling);
+        }
+    }
+    
+    getMaxCadence()
+    {
+        if (this.localStorageAvailable === true)
+        {
+            let value = localStorage.getItem('maxCadence');
             
             if (typeof(
-                    Storage) !== 'undefined')
+                    value) !== 'undefined')
             {
-                localStorage.setItem('maxCadence', this.maxCadence);
-                localStorage.setItem('maxCadenceCeiling', this.maxCadenceCeiling);
+                this.maxCadence = value;
             }
         }
+        else
+        {
+            this.maxCadence = this.getAvrCadence();
+        }
+        
+        return this.maxCadence;
     }
     
     round(value)
     {
         return Math.round(value * 10) / 10;
+    }
+    
+    storeItem(key, value)
+    {
+        if (this.localStorageAvailable === true)
+        {
+            localStorage.setItem(key, value);
+        }
     }
 }
