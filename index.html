@@ -24,17 +24,15 @@
 
         <div id="version"></div>
 
-        <script src="js/cobi.js"></script>
-        <script src="js/cobi-style.min.js"></script>
+        <script src="https://cdn.cobi.bike/cobi.js/0.34.1/cobi.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdn.rawgit.com/konvajs/konva/1.7.2/konva.min.js"></script>
 
-        <script src="js/jquery.min.js"></script>
-        <script src="js/konva.js"></script>
-
-        <script src="js/bkdashboard.js"></script>
+        <script src="js/BkDashboard.js"></script>
 
         <script>
 
-            jQuery(document).ready(
+            $(document).ready(
                 function () {
 
                     COBI.init('token — can by anything right now');
@@ -51,7 +49,7 @@
                         }
                     );
 
-                    let BkD = new BkDashboard();
+                    let BkD = new BkDashboard(window.innerWidth, window.innerHeight);
 
                     BkD.initView();
 

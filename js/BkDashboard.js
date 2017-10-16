@@ -1,10 +1,16 @@
+/*jshint esversion: 6 */
+
+//import View from 'View';
+
 class BkDashboard
 {
     /**
      *
      */
-    constructor()
+    constructor(stageWidth, stageHeight)
     {
+        //let view = new View();
+        
         this.version = '0.0.5';
         
         this.localStorageAvailable =
@@ -12,20 +18,11 @@ class BkDashboard
                 typeof(
                     Storage) !== 'undefined');
         
-        this.stageWidth = $(window).width();
-        this.stageHeight = $(window).height();
-        
-        this.speedArcWidth = this.stageWidth / 20;
-        
-        this.speedArcInnerRadius = this.stageWidth / 2.5;
-        this.speedArcOuterRadius = this.speedArcInnerRadius - this.speedArcWidth;
-        
-        this.cadenceArcInnerRadius = this.speedArcInnerRadius - 55;
-        this.cadenceArcOuterRadius = this.speedArcOuterRadius - 25;
+        this.stageWidth = stageWidth;
+        this.stageHeight = stageHeight;
         
         this.arcX = 0;
         this.arcY = 0;
-        
         this.acrToBackground = 5;
         
         //Speed
@@ -37,6 +34,10 @@ class BkDashboard
         this.checkSpeedInterval = 1000;
         this.checkSpeedIntervalObject = null;
         this.lastSpeedUpdate = 0;
+        
+        this.speedArcWidth = this.stageWidth / 20;
+        this.speedArcInnerRadius = this.stageWidth / 2.5;
+        this.speedArcOuterRadius = this.speedArcInnerRadius - this.speedArcWidth;
         
         //Cadence
         this.maxCadence = 0;
@@ -50,6 +51,9 @@ class BkDashboard
         
         this.checkCadenceInterval = 1000;
         this.checkCadenceIntervalObject = null;
+        
+        this.cadenceArcInnerRadius = this.speedArcInnerRadius - 55;
+        this.cadenceArcOuterRadius = this.speedArcOuterRadius - 25;
     }
     
     /**
@@ -180,7 +184,7 @@ class BkDashboard
                         
                         let height = 70;
                         let curveWidth = 80;
-                        let curveRadius = 20;
+                        let curveRadius = 30;
                         
                         context.beginPath();
                         context.moveTo(0, height);
@@ -192,7 +196,7 @@ class BkDashboard
                         context.fillStrokeShape(this);
                     },
                     fill:      '#FFF',
-                    x:         -6,
+                    x:         -12,
                     y:         this.arcY,
                 }
             );
