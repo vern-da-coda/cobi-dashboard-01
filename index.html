@@ -19,7 +19,6 @@
         <div id="container"></div>
 
         <div id="speed">-</div>
-
         <div id="cadence">-</div>
 
         <div id="version"></div>
@@ -36,18 +35,6 @@
                 function () {
 
                     COBI.init('token — can by anything right now');
-
-                    COBI.rideService.cadence.subscribe(
-                        function (cadence) {
-                            console.log('Your current cadence is ' + cadence + ' rpm.');
-                        }
-                    );
-
-                    COBI.hub.externalInterfaceAction.subscribe(
-                        function (action) {
-                            console.log('I just tapped the handlebar remote and instantly received this ' + action + ' in my Web App');
-                        }
-                    );
 
                     let BkD = new BkDashboard('container', window.innerWidth, window.innerHeight);
 
