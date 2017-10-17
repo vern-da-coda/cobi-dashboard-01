@@ -1,0 +1,17 @@
+{
+  "name": "COBI-BK-Dashboard",
+  "version": "0.0.5",
+  "url": "https://github.com/vern-da-coda/cobi-dashboard-01",
+  "email": "cobi-dev@kaemmereit.de",
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.0.0",
+    "babel-preset-env": "^1.6.1"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "konva": "^1.7.2"
+  }
+}

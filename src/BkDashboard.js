@@ -1,7 +1,11 @@
-/*jshint esversion: 6 */
 
-//import View from 'View';
+//import COBI from 'https://cdn.cobi.bike/cobi.js/0.34.1/cobi.js';
 
+const $ = window.$;
+
+/**
+ *
+ */
 class BkDashboard
 {
     /**
@@ -9,7 +13,7 @@ class BkDashboard
      */
     constructor(stageContainer, stageWidth, stageHeight)
     {
-        //let view = new View();
+        // let view = new View();
         
         this.version = '0.0.5';
         
