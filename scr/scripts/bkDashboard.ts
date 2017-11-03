@@ -1,3 +1,4 @@
+import View from './modules/view';
 //import * as Konva from 'konva';
 
 declare let Konva: any;
@@ -63,7 +64,7 @@ export default class BkDashboard {
      *
      */
     constructor(stageContainer, stageWidth, stageHeight) {
-        // let view = new View();
+        let view = new View();
 
         this.localStorageAvailable =
             (
@@ -619,7 +620,7 @@ export default class BkDashboard {
      * @param {string} key
      * @param {number} value
      */
-    storeItem(key: string, value: number) {
+    storeItem(key: string, value: any) {
         if (this.localStorageAvailable === true) {
             localStorage.setItem(key, value);
         }
