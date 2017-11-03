@@ -3,12 +3,12 @@ module.exports = (grunt) ->
 
     cssmin:
       target:
-        src: ['app/css/style.css', 'app/css/cobi-style.css'],
+        src: ['scr/css/cobi-style.css', 'scr/css/style.css'],
         dest: 'dist/style.min.css'
 
     browserify:
       all:
-        src: 'app/scripts/main.ts'
+        src: 'scr/scripts/main.ts'
         dest: 'dev/main.js'
         options:
           browserifyOptions:
@@ -20,12 +20,12 @@ module.exports = (grunt) ->
         files:
           'dist/main.min.js.map': 'dev/main.js'
         options:
-          bundleDest: 'dist/main-with-maps.min.js'
+          bundleDest: 'dist/main.min.js'
 
     uglify:
       withMaps:
         files:
-          'dist/main-with-maps.min.js': 'dist/main-with-maps.min.js'
+          'dist/main.min.js': 'dist/main.min.js'
         options:
           sourceMap: true
           sourceMapIn: 'dist/main.min.js.map'

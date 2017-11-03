@@ -1,4 +1,6 @@
-import * as Konva from 'konva';
+//import * as Konva from 'konva';
+
+declare let Konva: any;
 
 /**
  *

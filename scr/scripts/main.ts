@@ -1,5 +1,6 @@
-import BkDashboard from "./bkDashboard"
-import * as COBI from './cobi';
+import BkDashboard from './bkDashboard'
+
+declare let COBI: any;
 
 COBI.init('token — can by anything right now');
 
