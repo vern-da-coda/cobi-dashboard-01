@@ -7,7 +7,7 @@ declare let Konva: any;
  */
 export default class BkDashboard {
 
-    private version: string = '0.0.6';
+    private version: string = '0.0.7';
 
     private localStorageAvailable: boolean = false;
 
