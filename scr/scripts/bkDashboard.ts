@@ -7,7 +7,7 @@ declare let Konva: any;
  */
 export default class BkDashboard {
 
-    private version: string = '0.0.6';
+    private version: string = '0.0.7';
 
     private localStorageAvailable: boolean = false;
 
@@ -25,7 +25,7 @@ export default class BkDashboard {
     private averageSpeed: number = 0;
     private averageSpeedMultiplier: number = 10;
     private checkSpeedInterval: number = 1000;
-    private checkSpeedIntervalObject;
+    private checkSpeedIntervalObject = null;
     private lastSpeedUpdate: number = 0;
 
     private speedArcWidth: number;
@@ -103,14 +103,14 @@ export default class BkDashboard {
         this.mask =
             new Konva.Group(
                 {
-                    /*
-                     clip: {
-                         x: 0,
-                         y: 0,
-                         width: this.stageWidth,
-                         height: this.arcY
-                     }
-                     */
+
+                    clip: {
+                        x: 0,
+                        y: 0,
+                        width: this.stageWidth,
+                        height: this.arcY
+                    }
+
                 }
             );
 
