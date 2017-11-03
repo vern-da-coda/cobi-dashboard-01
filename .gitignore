@@ -1,6 +1,4 @@
-
-# IntelliJ project files
-.idea
-out
-gen
-
+/dev
+/*.js
+/node_modules
+/package-lock.json

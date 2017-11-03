@@ -1,16 +1,20 @@
 <!DOCTYPE html>
+
 <html>
 
     <head>
         <meta charset="utf-8">
+
         <title>COBI BK Dashboard</title>
 
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-        <link href="css/cobi-style.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
+        <link href="dist/style.min.css" rel="stylesheet">
+
+        <script src="https://cdn.cobi.bike/cobi.js/0.34.2/cobi.js"></script>
+        <script src="https://cdn.rawgit.com/konvajs/konva/1.7.2/konva.min.js"></script>
 
     </head>
 
@@ -19,76 +23,11 @@
         <div id="container"></div>
 
         <div id="speed">-</div>
-
         <div id="cadence">-</div>
 
         <div id="version"></div>
 
-        <script src="js/cobi.js"></script>
-        <script src="js/cobi-style.min.js"></script>
-
-        <script src="js/jquery.min.js"></script>
-        <script src="js/konva.js"></script>
-
-        <script src="js/bkdashboard.js"></script>
-
-        <script>
-
-            jQuery(document).ready(
-                function () {
-
-                    COBI.init('token — can by anything right now');
-
-                    COBI.rideService.cadence.subscribe(
-                        function (cadence) {
-                            console.log('Your current cadence is ' + cadence + ' rpm.');
-                        }
-                    );
-
-                    COBI.hub.externalInterfaceAction.subscribe(
-                        function (action) {
-                            console.log('I just tapped the handlebar remote and instantly received this ' + action + ' in my Web App');
-                        }
-                    );
-
-                    let BkD = new BkDashboard();
-
-                    BkD.initView();
-
-                    BkD.initAverageSpeedView();
-                    BkD.initAverageCadenceView();
-
-                    BkD.initSpeedCheck();
-                    BkD.initCadenceCheck();
-
-                    COBI.rideService.speed.subscribe(
-                        function (value) {
-                            BkD.updateCurrentSpeedView(value * 3.6);
-                        }
-                    );
-
-                    COBI.tourService.averageSpeed.subscribe(
-                        function (value) {
-                            BkD.updateAverageSpeedView(value * 3.6);
-                        }
-                    );
-
-                    COBI.rideService.cadenceAvailability.subscribe(
-                        function (value) {
-                            console.log('cadence available: ' + value);
-                        }
-                    );
-
-                    COBI.rideService.cadence.subscribe(
-                        function (value) {
-                            BkD.updateCurrentCadenceView(value);
-                        }
-                    );
-
-                }
-            );
-
-        </script>
+        <script src="dist/main.min.js"></script>
 
     </body>
 
