@@ -14,6 +14,12 @@ BkD.initAverageCadenceView();
 BkD.initSpeedCheck();
 BkD.initCadenceCheck();
 
+COBI.app.theme.subscribe(
+    function (value) {
+        console.log(value)
+    }
+);
+
 COBI.rideService.speed.subscribe(
     function (value) {
         BkD.updateCurrentSpeedView(value * 3.6);
