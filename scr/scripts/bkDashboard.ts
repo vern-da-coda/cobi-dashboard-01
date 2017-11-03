@@ -287,9 +287,10 @@ export default class BkDashboard {
     }
 
     /**
-     * @param  speed
+     *
+     * @param {number} speed
      */
-    updateCurrentSpeedView(speed) {
+    updateCurrentSpeedView(speed: number) {
         this.lastSpeedUpdate = new Date().getTime();
 
         speed = this.round(speed);
@@ -318,7 +319,11 @@ export default class BkDashboard {
             speed + ' > ' + this.averageSpeed + ' - (' + this.maxSpeed + '/' + this.maxSpeedCeiling + ')';
     }
 
-    updateCurrentCadenceView(cadence) {
+    /**
+     *
+     * @param {number} cadence
+     */
+    updateCurrentCadenceView(cadence: number) {
         this.lastCadenceUpdate = new Date().getTime();
 
         cadence = this.round(cadence);
@@ -348,7 +353,12 @@ export default class BkDashboard {
             cadence + ' > ' + this.averageCadence + ' - (' + this.maxCadence + '/' + this.maxCadenceCeiling + ')';
     }
 
-    updateAverageSpeedView(speed, initial = false) {
+    /**
+     *
+     * @param {number} speed
+     * @param {boolean} initial
+     */
+    updateAverageSpeedView(speed: number, initial: boolean = false) {
         speed = this.round(speed);
 
         this.setAvrSpeed(speed);
@@ -376,7 +386,12 @@ export default class BkDashboard {
         tween.play();
     }
 
-    updateAverageCadenceView(cadence, initial = false) {
+    /**
+     *
+     * @param {number} cadence
+     * @param {boolean} initial
+     */
+    updateAverageCadenceView(cadence: number, initial: boolean = false) {
         cadence = this.round(cadence);
 
         this.setAvrCadence(cadence);
@@ -404,7 +419,12 @@ export default class BkDashboard {
         tween.play();
     }
 
-    calculateSpeedBasedRotation(speed) {
+    /**
+     *
+     * @param {number} speed
+     * @returns {number}
+     */
+    calculateSpeedBasedRotation(speed: number): number {
         let factor = (
             100 / this.maxSpeedCeiling) * speed;
 
@@ -412,7 +432,12 @@ export default class BkDashboard {
             180 / 100) * factor;
     }
 
-    calculateCadenceBasedRotation(cadence) {
+    /**
+     *
+     * @param {number} cadence
+     * @returns {number}
+     */
+    calculateCadenceBasedRotation(cadence: number): number {
         let factor = (
             100 / this.maxCadenceCeiling) * cadence;
 
@@ -420,7 +445,11 @@ export default class BkDashboard {
             180 / 100) * factor;
     }
 
-    setAvrSpeed(speed) {
+    /**
+     *
+     * @param {number} speed
+     */
+    setAvrSpeed(speed: number) {
         if (this.averageSpeed === null) {
             this.averageSpeed = speed;
         }
@@ -441,7 +470,11 @@ export default class BkDashboard {
         }
     }
 
-    setAvrCadence(cadence) {
+    /**
+     *
+     * @param {number} cadence
+     */
+    setAvrCadence(cadence: number) {
         if (this.averageCadence === null) {
             this.averageCadence = cadence;
         }
@@ -462,7 +495,11 @@ export default class BkDashboard {
         }
     }
 
-    getAvrSpeed() {
+    /**
+     *
+     * @returns {number}
+     */
+    getAvrSpeed(): number {
         if (this.localStorageAvailable === true) {
             let value = localStorage.getItem('averageSpeed');
 
@@ -475,7 +512,11 @@ export default class BkDashboard {
         return this.averageSpeed;
     }
 
-    getAvrCadence() {
+    /**
+     *
+     * @returns {number}
+     */
+    getAvrCadence(): number {
         if (this.localStorageAvailable === true) {
             let value = localStorage.getItem('averageCadence');
 
@@ -488,7 +529,11 @@ export default class BkDashboard {
         return this.averageCadence;
     }
 
-    setMaxSpeed(speed) {
+    /**
+     *
+     * @param {number} speed
+     */
+    setMaxSpeed(speed: number) {
         if (speed > this.maxSpeedCeiling) {
             this.maxSpeed = this.round(speed);
             this.maxSpeedCeiling = Math.ceil(this.maxSpeed / this.maxSpeedCeilingBufer) * this.maxSpeedCeilingBufer;
@@ -502,7 +547,11 @@ export default class BkDashboard {
         }
     }
 
-    getMaxSpeed() {
+    /**
+     *
+     * @returns {number}
+     */
+    getMaxSpeed(): number {
         if (this.localStorageAvailable === true) {
             let value = localStorage.getItem('maxSpeed');
 
@@ -518,7 +567,11 @@ export default class BkDashboard {
         return this.maxSpeed;
     }
 
-    setMaxCadence(cadence) {
+    /**
+     *
+     * @param {number} cadence
+     */
+    setMaxCadence(cadence: number) {
         if (cadence > this.maxCadenceCeiling) {
             this.maxCadence = this.round(cadence);
             this.maxCadenceCeiling = Math.ceil(this.maxCadence / this.maxCadenceCeilingBuffer) * this.maxCadenceCeilingBuffer;
@@ -532,7 +585,11 @@ export default class BkDashboard {
         }
     }
 
-    getMaxCadence() {
+    /**
+     *
+     * @returns {number}
+     */
+    getMaxCadence(): number {
         if (this.localStorageAvailable === true) {
             let value = localStorage.getItem('maxCadence');
 
@@ -548,11 +605,21 @@ export default class BkDashboard {
         return this.maxCadence;
     }
 
-    round(value) {
+    /**
+     *
+     * @param {number} value
+     * @returns {number}
+     */
+    round(value: number): number {
         return Math.round(value * 10) / 10;
     }
 
-    storeItem(key, value) {
+    /**
+     *
+     * @param {string} key
+     * @param {number} value
+     */
+    storeItem(key: string, value: number) {
         if (this.localStorageAvailable === true) {
             localStorage.setItem(key, value);
         }
