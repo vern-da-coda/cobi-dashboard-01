@@ -1,29 +1,24 @@
-//import * as Konva from 'konva';
+import Core from './core';
+import Dashboard from '../dashboard';
 
+//import * as Konva from 'konva';
 declare let Konva: any;
 
 /**
  *
  */
-export default class BkDashboard {
+export default class View {
 
-    private version: string = '0.0.7';
-
-    private localStorageAvailable: boolean = false;
+    private core: Core = null;
 
     private stageWidth: number;
     private stageHeight: number;
-    private stageContainer;
+    private stageContainer: string;
 
     private arcX: number = 0;
     private arcY: number = 0;
     private acrToBackground: number = 5;
 
-    private maxSpeed: number = 0;
-    private maxSpeedCeiling: number = 20;
-    private maxSpeedCeilingBufer: number = 5;
-    private averageSpeed: number = 0;
-    private averageSpeedMultiplier: number = 10;
     private checkSpeedInterval: number = 1000;
     private checkSpeedIntervalObject = null;
     private lastSpeedUpdate: number = 0;
@@ -32,11 +27,6 @@ export default class BkDashboard {
     private speedArcInnerRadius: number;
     private speedArcOuterRadius: number;
 
-    private maxCadence: number = 0;
-    private maxCadenceCeiling: number = 50;
-    private maxCadenceCeilingBuffer: number = 10;
-    private averageCadence: number = 0;
-    private averageCadenceMultiplier: number = 100;
     private averageCadenceInterval: number = 1000;
     private averageCadenceIntervalObject = null;
     private lastCadenceUpdate: number = 0;
@@ -62,13 +52,8 @@ export default class BkDashboard {
     /**
      *
      */
-    constructor(stageContainer, stageWidth, stageHeight) {
-        // let view = new View();
-
-        this.localStorageAvailable =
-            (
-                typeof(
-                    Storage) !== 'undefined');
+    constructor(core: Core, stageContainer: string, stageWidth: number, stageHeight: number) {
+        this.core = core;
 
         this.stageWidth = stageWidth;
         this.stageHeight = stageHeight;
@@ -242,22 +227,22 @@ export default class BkDashboard {
 
         this.stage.add(this.layer);
 
-        document.getElementById("version").innerHTML = this.version
+        document.getElementById('version').innerHTML = Dashboard.getVersion();
     }
 
     initAverageSpeedView() {
-        this.setMaxSpeed(this.getMaxSpeed());
-        this.updateAverageSpeedView(this.getAvrSpeed(), true);
+        this.core.setMaxSpeed(this.core.getMaxSpeed());
+        this.updateAverageSpeedView(this.core.getAvrSpeed(), true);
     }
 
     initAverageCadenceView() {
-        this.setMaxCadence(this.getMaxCadence());
-        this.updateAverageCadenceView(this.getAvrCadence(), true);
+        this.core.setMaxCadence(this.core.getMaxCadence());
+        this.updateAverageCadenceView(this.core.getAvrCadence(), true);
 
         if (this.averageCadenceIntervalObject === null) {
             this.averageCadenceIntervalObject =
                 setInterval(() => {
-                    this.updateAverageCadenceView(this.getAvrCadence(), false);
+                    this.updateAverageCadenceView(this.core.getAvrCadence(), false);
                 }, this.averageCadenceInterval);
         }
     }
@@ -287,14 +272,15 @@ export default class BkDashboard {
     }
 
     /**
-     * @param  speed
+     *
+     * @param {number} speed
      */
-    updateCurrentSpeedView(speed) {
+    updateCurrentSpeedView(speed: number) {
         this.lastSpeedUpdate = new Date().getTime();
 
-        speed = this.round(speed);
+        speed = Core.round(speed);
 
-        this.setMaxSpeed(speed);
+        this.core.setMaxSpeed(speed);
 
         let opacity = 1;
         if (speed === 0) {
@@ -305,7 +291,7 @@ export default class BkDashboard {
             new Konva.Tween(
                 {
                     node: this.curSpeedArc,
-                    rotation: this.calculateSpeedBasedRotation(speed),
+                    rotation: this.core.calculateSpeedBasedRotation(speed),
                     easing: Konva.Easings.EaseInOut,
                     duration: 0.5,
                     opacity: opacity
@@ -314,17 +300,21 @@ export default class BkDashboard {
 
         tween.play();
 
-        document.getElementById("speed").innerHTML =
-            speed + ' > ' + this.averageSpeed + ' - (' + this.maxSpeed + '/' + this.maxSpeedCeiling + ')';
+        document.getElementById('speed').innerHTML =
+            speed + ' > ' + this.core.getAvrSpeed() + ' - (' + this.core.getMaxSpeed() + '/' + this.core.getMaxSpeedCeiling() + ')';
     }
 
-    updateCurrentCadenceView(cadence) {
+    /**
+     *
+     * @param {number} cadence
+     */
+    updateCurrentCadenceView(cadence: number) {
         this.lastCadenceUpdate = new Date().getTime();
 
-        cadence = this.round(cadence);
+        cadence = Core.round(cadence);
 
-        this.setMaxCadence(cadence);
-        this.setAvrCadence(cadence);
+        this.core.setMaxCadence(cadence);
+        this.core.setAvrCadence(cadence);
 
         let opacity = 1;
         if (cadence === 0) {
@@ -335,7 +325,7 @@ export default class BkDashboard {
             new Konva.Tween(
                 {
                     node: this.curCadenceArc,
-                    rotation: this.calculateCadenceBasedRotation(cadence),
+                    rotation: this.core.calculateCadenceBasedRotation(cadence),
                     easing: Konva.Easings.EaseInOut,
                     duration: 0.5,
                     opacity: opacity
@@ -344,14 +334,19 @@ export default class BkDashboard {
 
         tween.play();
 
-        document.getElementById("cadence").innerHTML =
-            cadence + ' > ' + this.averageCadence + ' - (' + this.maxCadence + '/' + this.maxCadenceCeiling + ')';
+        document.getElementById('cadence').innerHTML =
+            cadence + ' > ' + this.core.getAvrCadence() + ' - (' + this.core.getMaxCadence() + '/' + this.core.getMaxCadenceCeiling() + ')';
     }
 
-    updateAverageSpeedView(speed, initial = false) {
-        speed = this.round(speed);
+    /**
+     *
+     * @param {number} speed
+     * @param {boolean} initial
+     */
+    updateAverageSpeedView(speed: number, initial: boolean = false) {
+        speed = Core.round(speed);
 
-        this.setAvrSpeed(speed);
+        this.core.setAvrSpeed(speed);
 
         let duration = 0.5;
         if (initial === true) {
@@ -360,7 +355,7 @@ export default class BkDashboard {
 
         let rotation = 0;
         if (speed !== 0) {
-            rotation = this.calculateSpeedBasedRotation(speed) + 180;
+            rotation = this.core.calculateSpeedBasedRotation(speed) + 180;
         }
 
         let tween =
@@ -376,10 +371,15 @@ export default class BkDashboard {
         tween.play();
     }
 
-    updateAverageCadenceView(cadence, initial = false) {
-        cadence = this.round(cadence);
+    /**
+     *
+     * @param {number} cadence
+     * @param {boolean} initial
+     */
+    updateAverageCadenceView(cadence: number, initial: boolean = false) {
+        cadence = Core.round(cadence);
 
-        this.setAvrCadence(cadence);
+        this.core.setAvrCadence(cadence);
 
         let duration = 0.5;
         if (initial === true) {
@@ -388,7 +388,7 @@ export default class BkDashboard {
 
         let rotation = 0;
         if (cadence !== 0) {
-            rotation = this.calculateCadenceBasedRotation(cadence) + 180;
+            rotation = this.core.calculateCadenceBasedRotation(cadence) + 180;
         }
 
         let tween =
@@ -402,159 +402,5 @@ export default class BkDashboard {
             );
 
         tween.play();
-    }
-
-    calculateSpeedBasedRotation(speed) {
-        let factor = (
-            100 / this.maxSpeedCeiling) * speed;
-
-        return (
-            180 / 100) * factor;
-    }
-
-    calculateCadenceBasedRotation(cadence) {
-        let factor = (
-            100 / this.maxCadenceCeiling) * cadence;
-
-        return (
-            180 / 100) * factor;
-    }
-
-    setAvrSpeed(speed) {
-        if (this.averageSpeed === null) {
-            this.averageSpeed = speed;
-        }
-
-        if (speed > 0) {
-            speed =
-                (
-                    (
-                        this.averageSpeed * (
-                        this.averageSpeedMultiplier - 1)) + speed) / this.averageSpeedMultiplier;
-
-            speed = this.round(speed);
-
-            if (this.averageSpeed !== speed) {
-                this.averageSpeed = speed;
-                this.storeItem('averageSpeed', this.averageSpeed);
-            }
-        }
-    }
-
-    setAvrCadence(cadence) {
-        if (this.averageCadence === null) {
-            this.averageCadence = cadence;
-        }
-
-        if (cadence > 0) {
-            cadence =
-                (
-                    (
-                        this.averageCadence * (
-                        this.averageCadenceMultiplier - 1)) + cadence) / this.averageCadenceMultiplier;
-
-            cadence = this.round(cadence);
-
-            if (this.averageCadence !== cadence) {
-                this.averageCadence = cadence;
-                this.storeItem('averageCadence', this.averageCadence);
-            }
-        }
-    }
-
-    getAvrSpeed() {
-        if (this.localStorageAvailable === true) {
-            let value = localStorage.getItem('averageSpeed');
-
-            if (typeof(
-                    value) !== 'undefined') {
-                this.averageSpeed = value;
-            }
-        }
-
-        return this.averageSpeed;
-    }
-
-    getAvrCadence() {
-        if (this.localStorageAvailable === true) {
-            let value = localStorage.getItem('averageCadence');
-
-            if (typeof(
-                    value) !== 'undefined') {
-                this.averageCadence = value;
-            }
-        }
-
-        return this.averageCadence;
-    }
-
-    setMaxSpeed(speed) {
-        if (speed > this.maxSpeedCeiling) {
-            this.maxSpeed = this.round(speed);
-            this.maxSpeedCeiling = Math.ceil(this.maxSpeed / this.maxSpeedCeilingBufer) * this.maxSpeedCeilingBufer;
-
-            if (this.maxSpeed === this.maxSpeedCeiling) {
-                this.maxSpeedCeiling += 5;
-            }
-
-            this.storeItem('maxSpeed', this.maxSpeed);
-            this.storeItem('maxSpeedCeiling', this.maxSpeedCeiling);
-        }
-    }
-
-    getMaxSpeed() {
-        if (this.localStorageAvailable === true) {
-            let value = localStorage.getItem('maxSpeed');
-
-            if (typeof(
-                    value) !== 'undefined') {
-                this.maxSpeed = value;
-            }
-        }
-        else {
-            this.maxSpeed = this.getAvrSpeed();
-        }
-
-        return this.maxSpeed;
-    }
-
-    setMaxCadence(cadence) {
-        if (cadence > this.maxCadenceCeiling) {
-            this.maxCadence = this.round(cadence);
-            this.maxCadenceCeiling = Math.ceil(this.maxCadence / this.maxCadenceCeilingBuffer) * this.maxCadenceCeilingBuffer;
-
-            if (this.maxCadence === this.maxCadenceCeiling) {
-                this.maxCadenceCeiling += this.maxCadenceCeilingBuffer;
-            }
-
-            this.storeItem('maxCadence', this.maxCadence);
-            this.storeItem('maxCadenceCeiling', this.maxCadenceCeiling);
-        }
-    }
-
-    getMaxCadence() {
-        if (this.localStorageAvailable === true) {
-            let value = localStorage.getItem('maxCadence');
-
-            if (typeof(
-                    value) !== 'undefined') {
-                this.maxCadence = value;
-            }
-        }
-        else {
-            this.maxCadence = this.getAvrCadence();
-        }
-
-        return this.maxCadence;
-    }
-
-    round(value) {
-        return Math.round(value * 10) / 10;
-    }
-
-    storeItem(key, value) {
-        if (this.localStorageAvailable === true) {
-            localStorage.setItem(key, value);
-        }
     }
 }
