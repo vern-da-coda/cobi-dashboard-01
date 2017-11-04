@@ -178,6 +178,14 @@ export default class Core {
 
     /**
      *
+     * @returns {number}
+     */
+    getMaxSpeedCeiling() {
+        return this.maxCadenceCeiling;
+    }
+
+    /**
+     *
      * @param {number} cadence
      */
     setMaxCadence(cadence: number) {
@@ -212,6 +220,14 @@ export default class Core {
         }
 
         return this.maxCadence;
+    }
+
+    /**
+     *
+     * @returns {number}
+     */
+    getMaxCadenceCeiling() {
+        return this.maxCadenceCeiling;
     }
 
     /**

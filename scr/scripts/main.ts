@@ -1,16 +1,16 @@
-import BkDashboard from './dashboard'
+import Dashboard from "./dashboard";
 
 declare let COBI: any;
 
-let Dashboard = new BkDashboard('container', window.innerWidth, window.innerHeight);
+let dashboard = new Dashboard('container', window.innerWidth, window.innerHeight);
 
-Dashboard.initView();
+dashboard.initView();
 
-Dashboard.initAverageSpeedView();
-Dashboard.initAverageCadenceView();
+dashboard.initAverageSpeedView();
+dashboard.initAverageCadenceView();
 
-Dashboard.initSpeedCheck();
-Dashboard.initCadenceCheck();
+dashboard.initSpeedCheck();
+dashboard.initCadenceCheck();
 
 COBI.init('token — can by anything right now');
 
@@ -22,13 +22,13 @@ COBI.app.theme.subscribe(
 
 COBI.rideService.speed.subscribe(
     function (value) {
-        Dashboard.updateCurrentSpeedView(value * 3.6);
+        dashboard.updateCurrentSpeedView(value * 3.6);
     }
 );
 
 COBI.tourService.averageSpeed.subscribe(
     function (value) {
-        Dashboard.updateAverageSpeedView(value * 3.6);
+        dashboard.updateAverageSpeedView(value * 3.6);
     }
 );
 
@@ -40,6 +40,6 @@ COBI.rideService.cadenceAvailability.subscribe(
 
 COBI.rideService.cadence.subscribe(
     function (value) {
-        Dashboard.updateCurrentCadenceView(value);
+        dashboard.updateCurrentCadenceView(value);
     }
 );

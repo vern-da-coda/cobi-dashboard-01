@@ -6,7 +6,7 @@ import View from './modules/view';
  */
 export default class Dashboard {
 
-    private static version: string = '0.0.8';
+    private static version: string = '0.1.0';
 
     private core: Core = null;
     private view: View = null;
@@ -14,7 +14,7 @@ export default class Dashboard {
     /**
      *
      */
-    constructor(stageContainer, stageWidth: number, stageHeight: number) {
+    constructor(stageContainer: string, stageWidth: number, stageHeight: number) {
         this.core = new Core();
         this.view = new View(this.core, stageContainer, stageWidth, stageHeight);
     }

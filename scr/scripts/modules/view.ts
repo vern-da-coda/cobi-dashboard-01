@@ -1,8 +1,7 @@
+import Core from './core';
+import Dashboard from '../dashboard';
+
 //import * as Konva from 'konva';
-
-import Core from "./core";
-import Dashboard from "../dashboard";
-
 declare let Konva: any;
 
 /**
@@ -14,15 +13,12 @@ export default class View {
 
     private stageWidth: number;
     private stageHeight: number;
-    private stageContainer;
+    private stageContainer: string;
 
     private arcX: number = 0;
     private arcY: number = 0;
     private acrToBackground: number = 5;
 
-    private maxSpeed: number = 0;
-    private maxSpeedCeiling: number = 20;
-    private averageSpeed: number = 0;
     private checkSpeedInterval: number = 1000;
     private checkSpeedIntervalObject = null;
     private lastSpeedUpdate: number = 0;
@@ -31,9 +27,6 @@ export default class View {
     private speedArcInnerRadius: number;
     private speedArcOuterRadius: number;
 
-    private maxCadence: number = 0;
-    private maxCadenceCeiling: number = 50;
-    private averageCadence: number = 0;
     private averageCadenceInterval: number = 1000;
     private averageCadenceIntervalObject = null;
     private lastCadenceUpdate: number = 0;
@@ -59,7 +52,7 @@ export default class View {
     /**
      *
      */
-    constructor(core: Core, stageContainer, stageWidth: number, stageHeight: number) {
+    constructor(core: Core, stageContainer: string, stageWidth: number, stageHeight: number) {
         this.core = core;
 
         this.stageWidth = stageWidth;
@@ -307,8 +300,8 @@ export default class View {
 
         tween.play();
 
-        document.getElementById("speed").innerHTML =
-            speed + ' > ' + this.averageSpeed + ' - (' + this.maxSpeed + '/' + this.maxSpeedCeiling + ')';
+        document.getElementById('speed').innerHTML =
+            speed + ' > ' + this.core.getAvrSpeed() + ' - (' + this.core.getMaxSpeed() + '/' + this.core.getMaxSpeedCeiling() + ')';
     }
 
     /**
@@ -341,8 +334,8 @@ export default class View {
 
         tween.play();
 
-        document.getElementById("cadence").innerHTML =
-            cadence + ' > ' + this.averageCadence + ' - (' + this.maxCadence + '/' + this.maxCadenceCeiling + ')';
+        document.getElementById('cadence').innerHTML =
+            cadence + ' > ' + this.core.getAvrCadence() + ' - (' + this.core.getMaxCadence() + '/' + this.core.getMaxCadenceCeiling() + ')';
     }
 
     /**
