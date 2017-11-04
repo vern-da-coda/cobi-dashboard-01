@@ -225,6 +225,17 @@ export default class Core {
         return Math.round(value * 10) / 10;
     }
 
+
+    /**
+     *
+     * @param {number} value
+     * @returns {string}
+     */
+    static decimal(value: number): string {
+        return value.toFixed(1);
+    }
+
+
     /**
      * @param {string} key
      * @param {number} value

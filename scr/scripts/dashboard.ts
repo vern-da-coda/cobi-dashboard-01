@@ -6,7 +6,7 @@ import View from './modules/view';
  */
 export default class Dashboard {
 
-    private static version: string = '0.1.0';
+    private static version: string = '0.1.1';
 
     private core: Core = null;
     private view: View = null;
