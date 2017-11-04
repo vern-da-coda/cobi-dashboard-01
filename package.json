@@ -1,6 +1,6 @@
 {
   "name": "COBI-BK-Dashboard",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "This repository contains some source files for a blog post located at",
   "url": "http://cobi.dashboard.kaemmereit.de/",
   "main": "foo.ts",
