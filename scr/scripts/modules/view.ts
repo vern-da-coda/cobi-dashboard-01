@@ -1,7 +1,7 @@
 //import * as Konva from 'konva';
 
 import Core from "./core";
-import BkDashboard from "../bkDashboard";
+import Dashboard from "../dashboard";
 
 declare let Konva: any;
 
@@ -234,7 +234,7 @@ export default class View {
 
         this.stage.add(this.layer);
 
-        document.getElementById('version').innerHTML = BkDashboard.getVersion();
+        document.getElementById('version').innerHTML = Dashboard.getVersion();
     }
 
     initAverageSpeedView() {

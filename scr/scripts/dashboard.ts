@@ -4,7 +4,7 @@ import View from './modules/view';
 /**
  *
  */
-export default class BkDashboard {
+export default class Dashboard {
 
     private static version: string = '0.0.8';
 
@@ -14,7 +14,7 @@ export default class BkDashboard {
     /**
      *
      */
-    constructor(stageContainer, stageWidth, stageHeight) {
+    constructor(stageContainer, stageWidth: number, stageHeight: number) {
         this.core = new Core();
         this.view = new View(this.core, stageContainer, stageWidth, stageHeight);
     }

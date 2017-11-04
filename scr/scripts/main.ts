@@ -1,8 +1,6 @@
-import BkDashboard from './bkDashboard'
+import BkDashboard from './dashboard'
 
 declare let COBI: any;
-
-COBI.init('token — can by anything right now');
 
 let Dashboard = new BkDashboard('container', window.innerWidth, window.innerHeight);
 
@@ -13,6 +11,8 @@ Dashboard.initAverageCadenceView();
 
 Dashboard.initSpeedCheck();
 Dashboard.initCadenceCheck();
+
+COBI.init('token — can by anything right now');
 
 COBI.app.theme.subscribe(
     function (value) {
