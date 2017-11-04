@@ -55,7 +55,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @param {number} speed
      */
     updateCurrentSpeedView(speed: number) {
@@ -63,7 +62,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @param {number} cadence
      */
     updateCurrentCadenceView(cadence: number) {
@@ -71,7 +69,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @param {number} speed
      * @param {boolean} initial
      */
@@ -80,7 +77,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @returns {string}
      */
     static getVersion() {

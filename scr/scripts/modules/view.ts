@@ -230,11 +230,17 @@ export default class View {
         document.getElementById('version').innerHTML = Dashboard.getVersion();
     }
 
+    /**
+     *
+     */
     initAverageSpeedView() {
         this.core.setMaxSpeed(this.core.getMaxSpeed());
         this.updateAverageSpeedView(this.core.getAvrSpeed(), true);
     }
 
+    /**
+     *
+     */
     initAverageCadenceView() {
         this.core.setMaxCadence(this.core.getMaxCadence());
         this.updateAverageCadenceView(this.core.getAvrCadence(), true);
@@ -247,6 +253,9 @@ export default class View {
         }
     }
 
+    /**
+     *
+     */
     initSpeedCheck() {
         if (this.checkSpeedIntervalObject === null) {
             this.checkSpeedIntervalObject =
@@ -259,6 +268,9 @@ export default class View {
         }
     }
 
+    /**
+     *
+     */
     initCadenceCheck() {
         if (this.checkCadenceIntervalObject === null) {
             this.checkCadenceIntervalObject =
@@ -272,7 +284,6 @@ export default class View {
     }
 
     /**
-     *
      * @param {number} speed
      */
     updateCurrentSpeedView(speed: number) {
@@ -305,7 +316,6 @@ export default class View {
     }
 
     /**
-     *
      * @param {number} cadence
      */
     updateCurrentCadenceView(cadence: number) {
@@ -339,7 +349,6 @@ export default class View {
     }
 
     /**
-     *
      * @param {number} speed
      * @param {boolean} initial
      */
@@ -372,7 +381,6 @@ export default class View {
     }
 
     /**
-     *
      * @param {number} cadence
      * @param {boolean} initial
      */

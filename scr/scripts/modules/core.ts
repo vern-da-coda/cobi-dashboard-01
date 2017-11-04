@@ -17,7 +17,6 @@ export default class Core {
     private averageCadence: number = 0;
     private averageCadenceMultiplier: number = 100;
 
-
     /**
      *
      */
@@ -29,7 +28,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {number} speed
      * @returns {number}
      */
@@ -42,7 +40,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {number} cadence
      * @returns {number}
      */
@@ -55,7 +52,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {number} speed
      */
     setAvrSpeed(speed: number) {
@@ -80,7 +76,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {number} cadence
      */
     setAvrCadence(cadence: number) {
@@ -105,7 +100,6 @@ export default class Core {
     }
 
     /**
-     *
      * @returns {number}
      */
     getAvrSpeed(): number {
@@ -122,7 +116,6 @@ export default class Core {
     }
 
     /**
-     *
      * @returns {number}
      */
     getAvrCadence(): number {
@@ -139,7 +132,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {number} speed
      */
     setMaxSpeed(speed: number) {
@@ -157,7 +149,6 @@ export default class Core {
     }
 
     /**
-     *
      * @returns {number}
      */
     getMaxSpeed(): number {
@@ -177,7 +168,6 @@ export default class Core {
     }
 
     /**
-     *
      * @returns {number}
      */
     getMaxSpeedCeiling() {
@@ -185,7 +175,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {number} cadence
      */
     setMaxCadence(cadence: number) {
@@ -203,7 +192,6 @@ export default class Core {
     }
 
     /**
-     *
      * @returns {number}
      */
     getMaxCadence(): number {
@@ -223,7 +211,6 @@ export default class Core {
     }
 
     /**
-     *
      * @returns {number}
      */
     getMaxCadenceCeiling() {
@@ -231,7 +218,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {number} value
      * @returns {number}
      */
@@ -240,7 +226,6 @@ export default class Core {
     }
 
     /**
-     *
      * @param {string} key
      * @param {number} value
      */
