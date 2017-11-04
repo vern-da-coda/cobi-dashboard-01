@@ -6,7 +6,7 @@ import View from './modules/view';
  */
 export default class Dashboard {
 
-    private static version: string = '0.1.0';
+    private static version: string = '0.1.1';
 
     private core: Core = null;
     private view: View = null;
@@ -55,7 +55,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @param {number} speed
      */
     updateCurrentSpeedView(speed: number) {
@@ -63,7 +62,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @param {number} cadence
      */
     updateCurrentCadenceView(cadence: number) {
@@ -71,7 +69,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @param {number} speed
      * @param {boolean} initial
      */
@@ -80,7 +77,6 @@ export default class Dashboard {
     }
 
     /**
-     *
      * @returns {string}
      */
     static getVersion() {

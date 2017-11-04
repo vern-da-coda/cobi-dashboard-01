@@ -41,6 +41,8 @@ export default class View {
     private layer;
     private mask;
 
+    private speedDisplayFull;
+    private speedDisplayDecimal;
     private speedArcBackground;
     private curSpeedArc;
     private averageSpeedArc;
@@ -213,6 +215,38 @@ export default class View {
                 }
             );
 
+        this.speedDisplayFull = new Konva.Text(
+            {
+                x: this.stageWidth / 2.3,
+                y: this.arcY - 95,
+                width: this.stageWidth / 4,
+                text: '0',
+                fontSize: 110,
+                fontFamily: 'UniSans',
+                fill: '#fff',
+                align: 'right',
+                shadowEnabled: true,
+                shadowBlur: 5,
+                shadowColor: '#fff'
+            }
+        );
+
+        this.speedDisplayDecimal = new Konva.Text(
+            {
+                x: this.stageWidth / 2.3 + this.stageWidth / 4 + 15,
+                y: this.arcY - 55,
+                width: this.stageWidth / 5,
+                text: '0',
+                fontSize: 50,
+                fontFamily: 'UniSans',
+                fill: '#fff',
+                align: 'left',
+                shadowEnabled: true,
+                shadowBlur: 5,
+                shadowColor: '#fff'
+            }
+        );
+
         this.mask.add(this.speedArcBackground);
         this.mask.add(this.cadenceArcBackground);
 
@@ -224,17 +258,25 @@ export default class View {
 
         this.layer.add(this.mask);
         this.layer.add(this.bottomBar);
+        this.layer.add(this.speedDisplayFull);
+        this.layer.add(this.speedDisplayDecimal);
 
         this.stage.add(this.layer);
 
         document.getElementById('version').innerHTML = Dashboard.getVersion();
     }
 
+    /**
+     *
+     */
     initAverageSpeedView() {
         this.core.setMaxSpeed(this.core.getMaxSpeed());
         this.updateAverageSpeedView(this.core.getAvrSpeed(), true);
     }
 
+    /**
+     *
+     */
     initAverageCadenceView() {
         this.core.setMaxCadence(this.core.getMaxCadence());
         this.updateAverageCadenceView(this.core.getAvrCadence(), true);
@@ -247,6 +289,9 @@ export default class View {
         }
     }
 
+    /**
+     *
+     */
     initSpeedCheck() {
         if (this.checkSpeedIntervalObject === null) {
             this.checkSpeedIntervalObject =
@@ -259,6 +304,9 @@ export default class View {
         }
     }
 
+    /**
+     *
+     */
     initCadenceCheck() {
         if (this.checkCadenceIntervalObject === null) {
             this.checkCadenceIntervalObject =
@@ -272,13 +320,17 @@ export default class View {
     }
 
     /**
-     *
      * @param {number} speed
      */
     updateCurrentSpeedView(speed: number) {
         this.lastSpeedUpdate = new Date().getTime();
 
         speed = Core.round(speed);
+
+        let speedFull = Core.decimal(speed).split('.');
+
+        this.speedDisplayFull.text(speedFull[0]);
+        this.speedDisplayDecimal.text(speedFull[1]);
 
         this.core.setMaxSpeed(speed);
 
@@ -301,11 +353,16 @@ export default class View {
         tween.play();
 
         document.getElementById('speed').innerHTML =
-            speed + ' > ' + this.core.getAvrSpeed() + ' - (' + this.core.getMaxSpeed() + '/' + this.core.getMaxSpeedCeiling() + ')';
+            Core.decimal(speed) +
+            ' > ' +
+            this.core.getAvrSpeed() +
+            ' - (' +
+            this.core.getMaxSpeed() +
+            '/' +
+            this.core.getMaxSpeedCeiling() + ')';
     }
 
     /**
-     *
      * @param {number} cadence
      */
     updateCurrentCadenceView(cadence: number) {
@@ -335,11 +392,16 @@ export default class View {
         tween.play();
 
         document.getElementById('cadence').innerHTML =
-            cadence + ' > ' + this.core.getAvrCadence() + ' - (' + this.core.getMaxCadence() + '/' + this.core.getMaxCadenceCeiling() + ')';
+            Core.decimal(cadence) +
+            ' > ' +
+            this.core.getAvrCadence() +
+            ' - (' +
+            this.core.getMaxCadence() +
+            '/' +
+            this.core.getMaxCadenceCeiling() + ')';
     }
 
     /**
-     *
      * @param {number} speed
      * @param {boolean} initial
      */
@@ -372,7 +434,6 @@ export default class View {
     }
 
     /**
-     *
      * @param {number} cadence
      * @param {boolean} initial
      */
